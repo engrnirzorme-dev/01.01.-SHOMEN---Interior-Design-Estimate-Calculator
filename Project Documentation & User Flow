@@ -1,0 +1,466 @@
+## 1. Project Documentation & User Flow
+
+### Reasoning
+- The provided visuals show a multi-step “Interior Design Cost Estimation Calculator” wizard with a fixed stepper:
+  - `01 Welcome`
+  - `02 Size & Rooms`
+  - `03 Add-ons`
+  - `04 Packages`
+  - `05 Details`
+  - `Finish`
+- The observed screens indicate a linear flow with back/next navigation, plus a final confirmation/output state.
+- A welcome/landing screen is visible with:
+  - a large hero image
+  - a centered house icon
+  - the title `FULL HOME`
+  - supporting text about discovering the estimated cost of complete home interiors
+  - a `GET STARTED` button
+- The size/rooms screen shows:
+  - a home-size dropdown
+  - flat-status selection buttons
+  - room quantity controls using minus/plus buttons
+  - navigation buttons `GO BACK` and `NEXT STEP`
+- The add-ons screen shows:
+  - grouped add-on checkboxes by room category
+  - `GO BACK` and `NEXT STEP`
+- The packages screen shows:
+  - three selectable package cards: `STANDARD`, `SUPERIOR`, `SIGNATURE`
+  - visual emphasis on the currently selected package
+  - `GO BACK` and `NEXT STEP`
+- The details screen shows:
+  - a left-side project overview summary
+  - a right-side review of selected add-ons
+  - `GO BACK` and `CONFIRM`
+- The finish screen shows:
+  - contact fields
+  - a `SHOW ME TOTAL COST` action
+  - a generated final estimate
+  - `DOWNLOAD PDF`
+- The visuals strongly indicate the application’s main objective is to collect project requirements, compute an estimate, and provide a final downloadable quote.
+- No actual backend admin screens, code, or network traces are visible in the provided images; therefore all backend, schema, endpoint, and plugin-structure details beyond the UI must be treated as `insufficient visual evidence` or `[Placeholder]`.
+- No audio or separate screen-recorded video frames beyond the screenshots were available in the provided material; any video-only interactions are `insufficient visual evidence`.
+
+### Conclusion
+- Observed user flow:
+  - `Welcome` → `Size & Rooms` → `Add-ons` → `Packages` → `Details` → `Finish`
+- Observed project objective:
+  - collect home/interior configuration data, present package options, calculate a total estimate in BDT, and allow PDF download.
+- Observed primary UI interaction model:
+  - stepper-based wizard with `GET STARTED`, `NEXT STEP`, `GO BACK`, `CONFIRM`, `SHOW ME TOTAL COST`, and `DOWNLOAD PDF`.
+- Missing evidence:
+  - backend workflows, admin configuration, database schema, API routes, PDF internals, and plugin file structure are all `insufficient visual evidence` or `[Placeholder]`.
+- Next implementation step:
+  - define the wizard as a front-end multi-step estimator and separately scope the admin/data/API layers as `[Placeholder]` until more evidence is available.
+
+## 2. Front-End UI Specification
+
+### Reasoning
+- Screenshot catalog for analysis:
+  - Screenshot 1: `03 Add-ons`
+  - Screenshot 2: `05 Details`
+  - Screenshot 3: `02 Size & Rooms`
+  - Screenshot 4: `04 Packages`
+  - Screenshot 5: `Finish` with final estimate and PDF button
+  - Screenshot 6: `01 Welcome`
+- Global UI pattern observed across screens:
+  - a horizontal stepper at the top with six stages
+  - active step highlighted in dark green gradient
+  - inactive steps white with gray labels
+  - arrows between steps
+  - large rounded container for step content
+  - consistent white background and green primary buttons
+- Screen `01 Welcome`:
+  - large hero banner image
+  - centered white house icon
+  - text `FULL HOME`
+  - subtitle: `Discover the estimated cost of your complete home interiors—quickly and effortlessly.`
+  - primary button: `GET STARTED`
+- Screen `02 Size & Rooms`:
+  - heading: `TELL US ABOUT YOUR HOME TO GET A MORE ACCURATE ESTIMATE`
+  - section label: `SELECT HOME SIZE`
+  - visible control: dropdown with placeholder `Select a size`
+  - section label: `SELECT FLAT STATUS`
+  - visible choices:
+    - `Ready for Interior`
+    - `Not Ready`
+    - `Under Construction`
+  - section label: `SELECT ROOMS`
+  - visible room rows:
+    - `Living Room`
+    - `Kitchen`
+    - `Bed Room`
+    - `Bathroom`
+    - `Dining`
+    - `Foyer & Lobby`
+    - `Family Living`
+  - each row has minus button, count display, plus button
+  - buttons: `GO BACK`, `NEXT STEP`
+- Screen `03 Add-ons`:
+  - heading: `SELECT ADD-ONS (DESIGN/WORK OPTIONS)`
+  - subtitle: `Customize your design with our available add-on options`
+  - room-grouped add-ons with checkboxes:
+    - `ADD-ONS FOR LIVING ROOM`
+      - `Wooden Ceiling with Lighting`
+      - `TV Unit`
+      - `Folding/ Sliding Door`
+      - `Showpieces Unit`
+      - `Wall Paneling`
+      - `Wall Paint`
+    - `ADD-ONS FOR KITCHEN`
+      - `Kitchen Cabinet`
+      - `Kitchen Accessories`
+    - `ADD-ONS FOR BEDROOM`
+      - `Wooden Ceiling with Lighting`
+      - `Wall Cabinet with Dressing`
+      - `Study Unit`
+      - `Bed Head Panel`
+      - `Skim Paint/ Wall Paper`
+      - `Wall Paint`
+    - `ADD-ONS FOR BATHROOM`
+      - `Basin Cabinet with Mirror`
+      - `Shower Encloser`
+    - `ADD-ONS FOR DINING`
+      - `Wooden Ceiling with Lighting`
+      - `Dinner Wagon`
+      - `Wall Paneling`
+      - `Skim Paint/ Wall Paper`
+      - `Basin Unit Cabinet`
+      - `Wall Paint`
+    - `ADD-ONS FOR FOYER & LOBBY`
+      - `Wooden Ceiling with Lighting`
+      - `Shoe Rack with Showpieces Unit`
+      - `Wall Paneling`
+      - `Wall Paint`
+    - `ADD-ONS FOR FAMILY LIVING`
+      - `Wooden Ceiling with Lighting`
+      - `TV Unit`
+      - `Wall Paneling`
+      - `Raised Wooden Floor`
+      - `Wall Paint`
+  - buttons: `GO BACK`, `NEXT STEP`
+- Screen `04 Packages`:
+  - heading: `PICK YOUR PACKAGE`
+  - subtitle: `We have packages for every budget and style preference.`
+  - three card options:
+    - `STANDARD`
+      - description: `A range of essential home interior solutions that's perfect for all your needs.`
+      - benefits visible:
+        - `Affordable pricing`
+        - `Convenient designs`
+        - `Basic accessories`
+    - `SUPERIOR`
+      - description: `Superior home interior solutions that will take your interiors to the next level.`
+      - benefits visible:
+        - `Mid-range pricing`
+        - `Premium designs`
+        - `Wide range of accessories`
+      - visually highlighted as selected in the screenshot
+    - `SIGNATURE`
+      - description: `Super premium solutions that will take your home to the premium level.`
+      - benefits visible:
+        - `High-range pricing`
+        - `The state-of-art designs`
+        - `Rich range of accessories`
+  - buttons: `GO BACK`, `NEXT STEP`
+- Screen `05 Details`:
+  - heading: `CHECK ALL OF THE DETAILS`
+  - subtitle: `Double-check your selection. If anything is missing, please add it before continuing.`
+  - left panel `PROJECT OVERVIEW`:
+    - `HOME SIZE`
+    - `FLAT STATUS`
+    - `ROOMS` with plus/minus controls and numeric counts
+    - `SELECTED PACKAGE`
+  - right panel `SELECTED ADD-ONS`
+  - buttons: `GO BACK`, `CONFIRM`
+- Screen `Finish`:
+  - heading: `YOUR ESTIMATE IS ALMOST READY`
+  - subtitle: `Provide your contact details to see the final estimate`
+  - fields visible:
+    - `Full Name`
+    - `Email Address`
+    - phone input with visible country code placeholder `BD +088`
+    - `Phone Number`
+    - `Location`
+  - large button: `SHOW ME TOTAL COST`
+  - final estimate section:
+    - heading: `YOUR FINAL ESTIMATE`
+    - cost card: `Total Estimate Cost`
+    - visible value: `BDT 15,98,400`
+    - `SELECTION SUMMARY`
+    - `ROOMS`
+    - `SELECTED ADD-ONS`
+  - final action button: `DOWNLOAD PDF`
+- Visual design system observed:
+  - white/light gray surfaces
+  - dark green primary actions
+  - rounded cards
+  - subtle borders
+  - strong typography hierarchy
+- Ambiguities:
+  - exact validation rules, dropdown options for home size, and whether packages alter add-on availability are `insufficient visual evidence`.
+  - whether the final cost appears only after clicking `SHOW ME TOTAL COST` or earlier in the flow is visually implied but not fully proven, so that behavior is `ambiguous`.
+
+### Conclusion
+- Confirmed front-end screens:
+  - `Welcome`, `Size & Rooms`, `Add-ons`, `Packages`, `Details`, `Finish`
+- Confirmed visible controls:
+  - `GET STARTED`
+  - home-size dropdown
+  - flat-status selectable buttons
+  - room count `- / +` controls
+  - add-on checkboxes
+  - package cards
+  - `GO BACK`, `NEXT STEP`, `CONFIRM`, `SHOW ME TOTAL COST`, `DOWNLOAD PDF`
+- Confirmed content model:
+  - home size
+  - flat status
+  - room quantities
+  - room-scoped add-ons
+  - package selection
+  - contact details
+  - final estimate summary
+- Confirmed visible output:
+  - final total shown as `BDT 15,98,400`
+- Ambiguous/insufficient evidence:
+  - available home-size values
+  - validation behavior
+  - dynamic recalculation timing
+  - whether selections are persisted server-side or only client-side
+  - any accessibility or mobile layout behavior
+- Implementation-ready note:
+  - build this as a step-based quote wizard with persistent selection state, but keep all advanced behavior beyond what is visible as `insufficient visual evidence` or `[Placeholder]`.
+
+## 3. Admin Panel Architecture
+
+### Reasoning
+- No admin dashboard, WordPress menu, settings page, CPT list, or backend screenshots are visible in the provided material.
+- Therefore, any specific admin navigation, role permissions, configuration forms, or content management flows are `insufficient visual evidence`.
+- The front-end clearly depends on configurable entities:
+  - package definitions
+  - add-ons per room
+  - home-size options
+  - flat-status options
+  - pricing rules
+  - PDF generation template
+  - contact/lead storage
+- These required admin capabilities are logically necessary for implementation, but their exact UI and structure are not visible, so they must be labeled `[Placeholder]`.
+- Because no evidence exists for WP submenu labels, settings groups, or storage mechanisms, all admin architecture here is proposed as a justifiable scaffold only.
+
+### Conclusion
+- Confirmed from visuals:
+  - insufficient visual evidence for the admin panel architecture.
+- Required but unconfirmed admin components:
+  - `[Placeholder]` menu for estimator management
+  - `[Placeholder]` screens for home sizes, room types, flat statuses, add-ons, packages, and pricing rules
+  - `[Placeholder]` lead/quote submissions screen
+  - `[Placeholder]` PDF template settings
+  - `[Placeholder]` general plugin settings
+- Roles/capabilities:
+  - `insufficient visual evidence`
+- Next step:
+  - define the admin UI as a configurable content-management backend, but keep all controls, labels, and capability rules as `[Placeholder]` until actual admin screenshots or code are available.
+
+## 4. Database Schema & Data Models
+
+### Reasoning
+- The screenshots expose data entities, but not the actual database schema.
+- Directly observable business entities include:
+  - wizard session / estimate
+  - home size
+  - flat status
+  - room counts
+  - add-ons
+  - package
+  - contact details
+  - final total
+  - downloadable PDF
+- A relational design is implied by the data categories shown in the UI:
+  - room selection needs counts
+  - add-ons are grouped by room
+  - packages are mutually exclusive
+  - contact data belongs to the final estimate
+- However, no table names, column names, foreign keys, or storage model are visible, so schema details remain `insufficient visual evidence`.
+- A buildable implementation would likely need:
+  - a master estimate header record
+  - child line-item records for rooms and add-ons
+  - reference data tables for packages and add-ons
+  - possibly a PDF log or file reference
+- Those are implementation suggestions only and must be marked `[Placeholder]`.
+
+### Conclusion
+- Confirmed data domains from visuals:
+  - estimate/session
+  - home size
+  - flat status
+  - room quantities
+  - add-on selections
+  - package selection
+  - customer contact details
+  - final amount
+  - PDF output reference
+- Database schema details:
+  - `insufficient visual evidence`
+- Proposed relational model:
+  - `[Placeholder]` `estimates`
+  - `[Placeholder]` `estimate_rooms`
+  - `[Placeholder]` `estimate_add_ons`
+  - `[Placeholder]` `packages`
+  - `[Placeholder]` `add_ons`
+  - `[Placeholder]` `home_sizes`
+  - `[Placeholder]` `flat_statuses`
+  - `[Placeholder]` `estimate_files` or `generated_pdfs`
+- Keys/relationships:
+  - `insufficient visual evidence` for actual keys and foreign key naming
+- Implementation note:
+  - use a normalized schema, but treat exact table/field definitions as `[Placeholder]` until a backend source or admin UI confirms them.
+
+## 5. Pricing Engine Algorithms
+
+### Reasoning
+- The final screen shows a computed amount: `BDT 15,98,400`.
+- The estimate is clearly affected by:
+  - home size
+  - flat status
+  - number of rooms
+  - add-on selections
+  - selected package
+- The package cards imply different pricing tiers:
+  - `STANDARD` = affordable/basic
+  - `SUPERIOR` = mid-range/premium
+  - `SIGNATURE` = high-range/premium-plus
+- The details screen shows the selected package is `SUPERIOR`.
+- The UI text explicitly suggests the estimate becomes “more accurate” after home details are provided.
+- Despite these visible signals, the actual formula, base rates, multipliers, discount logic, taxes, rounding, and room/add-on weighting are not shown anywhere.
+- Therefore:
+  - the existence of a pricing engine is confirmed
+  - the internal algorithm is `insufficient visual evidence`
+- Any calculation logic beyond “some combination of selections produces a BDT total” must be treated as `[Placeholder]`.
+
+### Conclusion
+- Confirmed pricing inputs:
+  - home size
+  - flat status
+  - room counts
+  - selected add-ons
+  - selected package
+- Confirmed output:
+  - total estimate in BDT, visible as `BDT 15,98,400`
+- Confirmed pricing tiers:
+  - `STANDARD`
+  - `SUPERIOR`
+  - `SIGNATURE`
+- Algorithm details:
+  - `insufficient visual evidence`
+- Recommended implementation placeholder:
+  - `[Placeholder]` base-package pricing
+  - `[Placeholder]` room-count multiplier
+  - `[Placeholder]` add-on unit pricing
+  - `[Placeholder]` flat-status adjustment
+  - `[Placeholder]` final rounding/currency formatting
+- Important note:
+  - do not hardcode any formula as “confirmed” from the visuals; only the presence of pricing inputs and a final total is verified.
+
+## 6. AJAX/REST API Endpoints & Flows
+
+### Reasoning
+- No browser dev tools, XHR panel, network trace, or API response payloads are visible.
+- No REST URLs, route names, payload formats, or JSON responses are shown in the screenshots.
+- The UI strongly implies asynchronous operations at several points:
+  - moving between steps
+  - storing selections
+  - generating the final estimate
+  - downloading PDF
+- But none of these requests are directly visible, so endpoint names and payload structures are `insufficient visual evidence`.
+- A robust implementation would likely need endpoints for:
+  - saving step state
+  - recalculating estimate
+  - returning package/add-on pricing
+  - submitting lead/contact data
+  - generating PDF
+- These are only implementation placeholders.
+
+### Conclusion
+- Confirmed via visuals:
+  - no explicit AJAX/REST endpoints are visible
+- Likely required but unconfirmed endpoints:
+  - `[Placeholder]` save-step endpoint
+  - `[Placeholder]` calculate-estimate endpoint
+  - `[Placeholder]` submit-contact endpoint
+  - `[Placeholder]` generate-pdf endpoint
+  - `[Placeholder]` fetch-package-data endpoint
+- Payload/response formats:
+  - `insufficient visual evidence`
+- Implementation note:
+  - define AJAX/REST interfaces only after confirming the desired server-side state model; current visuals do not prove any route names or request shapes.
+
+## 7. PDF Generation Workflow
+
+### Reasoning
+- The final estimate screen includes a clearly visible `DOWNLOAD PDF` button.
+- That is direct evidence that the workflow supports PDF generation or PDF export.
+- The content shown on the final estimate screen suggests the PDF would likely contain:
+  - estimate total
+  - selection summary
+  - room counts
+  - selected add-ons
+  - selected package
+  - possibly contact details
+- However, no modal, progress indicator, filename, save dialog, preview, email attachment, or generation status is shown.
+- No evidence indicates whether the PDF is:
+  - generated client-side
+  - generated server-side
+  - downloaded immediately
+  - emailed
+  - stored in the database
+- Therefore the internal workflow is `insufficient visual evidence`.
+- The only confirmed visible interaction is the existence of the `DOWNLOAD PDF` button on the final estimate screen.
+
+### Conclusion
+- Confirmed PDF-related UI:
+  - `DOWNLOAD PDF` button
+- Confirmed output intent:
+  - export the final estimate as a PDF
+- Unconfirmed workflow details:
+  - `insufficient visual evidence`
+- Proposed PDF contents:
+  - `[Placeholder]` total estimate
+  - `[Placeholder]` selection summary
+  - `[Placeholder]` room counts
+  - `[Placeholder]` selected add-ons
+  - `[Placeholder]` package and contact data
+- Implementation note:
+  - treat PDF creation as a required feature, but all internal generation steps are `[Placeholder]` until more visual or code evidence is available.
+
+## 8. WordPress Plugin Structure
+
+### Reasoning
+- No plugin folder tree, file list, or code view is visible in the provided screenshots.
+- No WordPress admin sidebar, plugin page, CPT registration screen, shortcode editor, block editor, or settings page is visible.
+- Therefore the actual plugin structure cannot be deduced directly; it is `insufficient visual evidence`.
+- The front-end wizard strongly suggests the plugin will need:
+  - a main plugin bootstrap file
+  - front-end rendering assets
+  - admin assets
+  - PHP classes for estimator logic
+  - PDF generation support
+  - persistence for estimates and leads
+- These are implementation necessities, but their exact folder names and file organization are not shown.
+- Any file tree or CPT declarations would be `[Placeholder]`, not confirmed.
+
+### Conclusion
+- Confirmed plugin-structure evidence:
+  - `insufficient visual evidence`
+- Recommended placeholder structure:
+  - `[Placeholder]` main plugin bootstrap file
+  - `[Placeholder]` `includes/` or `src/` for core classes
+  - `[Placeholder]` `admin/` for backend UI
+  - `[Placeholder]` `public/` or `frontend/` for wizard rendering
+  - `[Placeholder]` `assets/` for CSS/JS/images
+  - `[Placeholder]` `templates/` for step markup and PDF layout
+  - `[Placeholder]` `languages/` for translation files
+- CPTs/custom tables:
+  - `insufficient visual evidence`
+- Hooks/shortcodes/blocks:
+  - `insufficient visual evidence`
+- Implementation note:
+  - build the plugin structure as a conventional WordPress plugin scaffold, but keep all concrete file names and hook names as `[Placeholder]` until the actual source or admin evidence is provided.
