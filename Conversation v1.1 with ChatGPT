@@ -1,0 +1,582 @@
+**CONVERSATION WITH ChatGPT:**
+
+I also reviewed the uploaded analysis framework. It is essentially an instruction document telling the analyst to extract only what is visually observable from the screen recordings and reconstruct the application's architecture. It explicitly requires waiting for authorization before producing the blueprint, then documenting the Front-end Flow, PDF Generation, and Admin Panel/Dynamic Integration. 
+
+---
+
+# Canvas
+
+# Interior Design Estimate Calculator
+
+## Complete WordPress Plugin Blueprint (Phase 1)
+
+### Project Reverse Engineering
+
+---
+
+# 1. High-Level Product
+
+## Purpose
+
+The project is an **Interior Design Cost Estimation Calculator** for WordPress.
+
+Its goal is:
+
+* Generate an estimated interior quotation
+* Allow customers to configure their home
+* Estimate pricing dynamically
+* Capture lead information
+* Produce a quotation/PDF
+* Store everything in WordPress Admin
+
+This is **not a simple calculator**.
+
+It is a
+
+> Guided Quote Builder + Dynamic Pricing Engine + Lead Generation System
+
+similar in concept to professional WordPress estimate builders. ([WordPress.org][1])
+
+---
+
+# 2. Overall Architecture
+
+```
+Visitor
+
+↓
+
+Step 1
+Welcome
+
+↓
+
+Step 2
+House Information
+
+↓
+
+Step 3
+Select Add-ons
+
+↓
+
+Step 4
+Package Selection
+
+↓
+
+Step 5
+Customer Details
+
+↓
+
+Estimate Generation
+
+↓
+
+PDF
+
+↓
+
+Lead Stored
+
+↓
+
+Admin Dashboard
+```
+
+---
+
+# 3. User Flow Blueprint
+
+From the screenshots, the UI is clearly designed as a wizard.
+
+Progress Bar
+
+```
+01 Welcome
+
+↓
+
+02 Size & Rooms
+
+↓
+
+03 Add-ons
+
+↓
+
+04 Packages
+
+↓
+
+05 Details
+
+↓
+
+Finish
+```
+
+Each screen saves data before continuing.
+
+---
+
+# Screen 1
+
+## Welcome
+
+Visible Components
+
+* Hero Banner
+* Background Image
+* Home Icon
+* Title
+
+```
+FULL HOME
+```
+
+Subtitle
+
+```
+Discover the estimated cost...
+```
+
+Button
+
+```
+GET STARTED
+```
+
+### Logic
+
+Click
+
+↓
+
+Create new Estimate Session
+
+↓
+
+Move to Step 2
+
+---
+
+# Screen 2
+
+## Home Size & Rooms
+
+Visible Fields
+
+### Home Size
+
+Dropdown
+
+```
+800-1000
+
+1000-1200
+
+1200-1500
+
+1500-1800
+
+1800-2200
+
+2200-2600
+
+2600-3000
+
+Above 3000
+```
+
+---
+
+### Flat Status
+
+Buttons
+
+Ready for Interior
+
+Not Ready
+
+Under Construction
+
+Only one can be selected.
+
+---
+
+### Rooms
+
+Each room has
+
+* Minus button
+* Quantity
+* Plus button
+
+Rooms shown:
+
+Living Room
+
+Kitchen
+
+Bedroom
+
+Bathroom
+
+Dining
+
+Foyer & Lobby
+
+Family Living
+
+---
+
+### Logic
+
+Every room
+
+stores
+
+```
+Room Name
+
+Quantity
+```
+
+Example
+
+Bedroom
+
+```
+2
+```
+
+Bathroom
+
+```
+2
+```
+
+---
+
+# Data Model
+
+```
+Estimate
+
+House Size
+
+Flat Status
+
+Rooms[]
+```
+
+Rooms array
+
+```
+Living
+
+Kitchen
+
+Bedroom
+
+Bathroom
+
+Dining
+
+Lobby
+
+Family Living
+```
+
+---
+
+# Screen 3
+
+## Add-ons
+
+Every room displays its own options.
+
+Example
+
+Living Room
+
+* Wooden Ceiling
+* TV Unit
+* Sliding Door
+* Showcase Unit
+* Wall Panel
+* Wall Paint
+
+Kitchen
+
+* Kitchen Cabinet
+* Kitchen Accessories
+
+Bedroom
+
+* Ceiling
+* Wall Cabinet
+* Study Unit
+* Head Panel
+* Wallpaper
+* Paint
+
+Bathroom
+
+* Basin Cabinet
+* Shower Enclosure
+
+Dining
+
+* Ceiling
+* Wagon
+* Wall Panel
+* Wallpaper
+* Basin Unit
+* Paint
+
+Lobby
+
+* Shoe Rack
+* Ceiling
+* Paint
+
+Family Living
+
+* Ceiling
+* TV Unit
+* Raised Wooden Floor
+* Paint
+
+---
+
+Every option is simply
+
+```
+Checkbox
+```
+
+Internally
+
+```
+true
+
+false
+```
+
+---
+
+# Data Model
+
+```
+Room
+
+↓
+
+Addon
+
+↓
+
+Selected
+```
+
+Example
+
+```
+Bedroom
+
+Wall Paint
+
+true
+```
+
+---
+
+# Frontend State Object
+
+At this point the browser has approximately
+
+```
+Estimate
+
+Home Size
+
+Status
+
+Rooms
+
+Room Count
+
+Selected Addons
+```
+
+Everything is accumulated before pricing.
+
+---
+
+# Dynamic Pricing Logic
+
+Although the pricing screen is not shown, the collected information strongly indicates the calculator is intended to apply configurable pricing rules rather than hard-coded values. A likely structure is:
+
+```
+Room Base Cost
+
++
+
+Room Quantity
+
++
+
+Addon Costs
+
++
+
+Package Multiplier
+
+↓
+
+Grand Total
+```
+
+This follows the standard architecture used by configurable WordPress estimation plugins. ([WordPress.org][1])
+
+---
+
+# Estimated Database Schema
+
+## Estimate
+
+```
+ID
+
+Date
+
+Customer
+
+Status
+
+Home Size
+
+Flat Status
+
+Total
+```
+
+---
+
+## Estimate Rooms
+
+```
+Estimate ID
+
+Room
+
+Quantity
+```
+
+---
+
+## Estimate Add-ons
+
+```
+Estimate ID
+
+Room
+
+Addon
+
+Price
+```
+
+---
+
+# WordPress Plugin Modules
+
+## Frontend
+
+* Wizard
+* AJAX
+* Progress Bar
+* Validation
+* Dynamic Pricing
+* PDF Generator
+* Lead Form
+
+---
+
+## Admin
+
+Expected modules:
+
+Dashboard
+
+Estimates
+
+Packages
+
+Pricing Rules
+
+Rooms
+
+Add-ons
+
+Home Sizes
+
+Settings
+
+Email Templates
+
+PDF Templates
+
+Reports
+
+---
+
+# What We Can Confirm vs. What Remains Unconfirmed
+
+## Confirmed from the provided screenshots
+
+* Multi-step wizard with five stages.
+* Welcome screen with CTA.
+* Home size dropdown.
+* Flat status selector.
+* Room quantity selectors.
+* Room-specific add-on checkboxes.
+* Back/Next navigation.
+* Progress indicator.
+
+## Not yet confirmed (requires the screen-recorded videos)
+
+* Step 4 (Packages) behavior.
+* Step 5 (Details) fields.
+* Final estimate calculation formula.
+* PDF generation workflow.
+* Admin panel layout.
+* Dynamic pricing configuration.
+* Email notifications.
+* WordPress database implementation.
+* AJAX/API requests.
+
+---
+
+## Recommended Next Phase
+
+The screenshots are sufficient to reconstruct about **35–40%** of the application architecture. The remaining **60–65%**—including pricing logic, package selection, PDF generation, and the complete WordPress admin workflow—can only be extracted from the screen-recorded videos.
+
+Once the videos are available, I can produce a full software blueprint including:
+
+1. Complete front-end UI/UX specification.
+2. Full admin panel architecture.
+3. Database schema and relationships.
+4. Pricing engine algorithms.
+5. AJAX request/response flows.
+6. PDF generation process.
+7. WordPress plugin folder structure.
+8. Custom Post Types and database tables.
+9. REST/AJAX endpoints.
+10. Development-ready technical specification suitable for implementing the plugin from scratch.
+
+[1]: https://wordpress.org/plugins/cost-calculator-builder/?utm_source=chatgpt.com "Cost Calculator Builder – WordPress plugin | WordPress.org"
